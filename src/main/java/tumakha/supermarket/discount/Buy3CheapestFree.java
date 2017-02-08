@@ -44,16 +44,14 @@ class Buy3CheapestFree extends Discount {
                 item.setTotal(item.getCount() * item.getItem().getPrice());
                 item.setDiscount(null);
             });
-            int i = 0;
-            while (freeCount > 0) {
-                ReceiptItem cheapestItem = discountItems.get(i);
-                receiptItem.setDiscount(getDescription());
-                if (cheapestItem.getCount() <= freeCount) {
+            for (ReceiptItem cheapestItem : discountItems) {
+                cheapestItem.setDiscount(getDescription());
+                if (cheapestItem.getCount() < freeCount) {
                     cheapestItem.setTotal(0.0);
                     freeCount -= cheapestItem.getCount();
-                    i++;
                 } else {
                     cheapestItem.setTotal(cheapestItem.getTotal() - freeCount * cheapestItem.getItem().getPrice());
+                    break;
                 }
             }
         }
