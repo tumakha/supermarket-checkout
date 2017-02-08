@@ -26,10 +26,6 @@ public class DiscountRules {
         this.discounts = builder.discounts;
     }
 
-    private Discount getByItemCode(String itemCode) {
-        return discounts.get(itemCode);
-    }
-
     public Optional<Bonus> addItem(ReceiptItem receiptItem, Map<String, ReceiptItem> items) {
         receiptItem.setCount(receiptItem.getCount() + 1);
         Discount discount = discounts.getOrDefault(receiptItem.getItem().getCode(), DEFAULT_DISCOUNT);

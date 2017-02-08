@@ -5,7 +5,6 @@ import tumakha.supermarket.ReceiptItem;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.lang.Math.abs;
 import static java.util.Arrays.stream;
 import static java.util.Comparator.comparingDouble;
 import static java.util.stream.Collectors.toSet;

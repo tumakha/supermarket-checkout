@@ -23,10 +23,6 @@ public class ReceiptItem {
         return item;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
-    }
-
     public int getCount() {
         return count;
     }
