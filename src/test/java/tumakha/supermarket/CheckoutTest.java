@@ -47,6 +47,7 @@ public class CheckoutTest {
         assertEquals("Wrong checkout total", 28.67, checkout.getTotal(), 0.001);
         checkout.scan(FR1);
         assertEquals("Wrong checkout total", 28.67, checkout.getTotal(), 0.001);
+        checkout.printReceipt();
     }
 
     @Test
@@ -54,16 +55,13 @@ public class CheckoutTest {
         DiscountRules discountRules = new DiscountRules.Builder().buy2(SR1, 4.5).build();
         Checkout checkout = new Checkout(itemService, discountRules);
         checkout.scan(FR1);
-        checkout.scan(FR1);
-        checkout.scan(FR1);
         checkout.scan(SR1);
-        assertEquals("Wrong checkout total", 11.22, checkout.getTotal(), 0.001);
-        checkout.scan(FR1);
-        checkout.scan(FR1);
-        checkout.scan(CF1);
-        assertEquals("Wrong checkout total", 28.67, checkout.getTotal(), 0.001);
-        checkout.scan(FR1);
-        assertEquals("Wrong checkout total", 28.67, checkout.getTotal(), 0.001);
+        checkout.scan(SR1);
+        checkout.scan(SR1);
+        assertEquals("Wrong checkout total", 17.11, checkout.getTotal(), 0.001);
+        checkout.scan(SR1);
+        assertEquals("Wrong checkout total", 21.11, checkout.getTotal(), 0.001);
+        checkout.printReceipt();
     }
 
     @Test
@@ -79,6 +77,22 @@ public class CheckoutTest {
         assertEquals("Wrong checkout total", 17.98, checkout.getTotal(), 0.001);
         checkout.scan(PN1);
         assertEquals("Wrong checkout total", 21.09, checkout.getTotal(), 0.001);
+        checkout.printReceipt();
+    }
+
+    @Test
+    public void testBuy3CheapestFree6FromSet() {
+        DiscountRules discountRules = new DiscountRules.Builder().buy3CheapestFree(FR1, SR1, CF1, JC1, PN1).build();
+        Checkout checkout = new Checkout(itemService, discountRules);
+        checkout.scan(FR1);
+        checkout.scan(SR1);
+        checkout.scan(BR1);
+        checkout.scan(CF1);
+        checkout.scan(PN1);
+        checkout.scan(JC1);
+        checkout.scan(FR1);
+        assertEquals("Wrong checkout total", 24.20, checkout.getTotal(), 0.001);
+        checkout.printReceipt();
     }
 
     @Test
@@ -90,11 +104,20 @@ public class CheckoutTest {
         checkout.scan(BR1);
         checkout.scan(BR1);
         checkout.scan(BR1);
-        assertEquals("Wrong checkout total", 12.0, checkout.getTotal(), 0.001);
         assertEquals("Wrong items count", 2, checkout.getItems().size());
+        assertEquals("Wrong checkout total", 12.0, checkout.getTotal(), 0.001);
         checkout.scan(BR1);
-        assertEquals("Wrong checkout total", 13.75, checkout.getTotal(), 0.001);
         assertEquals("Wrong items count", 3, checkout.getItems().size());
+        assertEquals("Wrong PN1 count", 0, checkout.getItems().get(PN1).getCount(), 0.001);
+        assertEquals("Wrong PN1 total", -5.97, checkout.getItems().get(PN1).getTotal(), 0.001);
+        assertEquals("Wrong checkout total", 7.78, checkout.getTotal(), 0.001);
+        checkout.scan(PN1);
+        checkout.scan(PN1);
+        checkout.scan(PN1);
+        assertEquals("Wrong PN1 count", 3, checkout.getItems().get(PN1).getCount(), 0.001);
+        assertEquals("Wrong PN1 total", 0, checkout.getItems().get(PN1).getTotal(), 0.001);
+        assertEquals("Wrong checkout total", 13.75, checkout.getTotal(), 0.001);
+        checkout.printReceipt();
     }
 
 }

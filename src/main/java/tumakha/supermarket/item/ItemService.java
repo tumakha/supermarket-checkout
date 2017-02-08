@@ -2,8 +2,10 @@ package tumakha.supermarket.item;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static java.util.Arrays.stream;
+import static java.util.Optional.ofNullable;
 
 /**
  * @author Yuriy Tumakha
@@ -20,8 +22,8 @@ public class ItemService {
         stream(items).forEach(this::addItem);
     }
 
-    public Item getByCode(String code) {
-        return itemsMap.get(code);
+    public Optional<Item> getByCode(String code) {
+        return ofNullable(itemsMap.get(code));
     }
 
 }

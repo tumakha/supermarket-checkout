@@ -13,6 +13,12 @@ public class ReceiptItem {
 
     private double total;
 
+    private String discount;
+
+    public ReceiptItem(Item item) {
+        this.item = item;
+    }
+
     public Item getItem() {
         return item;
     }
@@ -35,6 +41,14 @@ public class ReceiptItem {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public String getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
     }
 
 }

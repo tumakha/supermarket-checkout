@@ -1,7 +1,10 @@
 package tumakha.supermarket.discount;
 
+import tumakha.supermarket.ReceiptItem;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static java.util.Arrays.stream;
 
@@ -15,6 +18,8 @@ import static java.util.Arrays.stream;
  */
 public class DiscountRules {
 
+    private static final Discount DEFAULT_DISCOUNT = new Discount();
+    private static final Discount BUY3_FOR2_DISCOUNT = new Buy3For2();
     private Map<String, Discount> discounts;
 
     private DiscountRules(Builder builder) {
@@ -25,12 +30,18 @@ public class DiscountRules {
         return discounts.get(itemCode);
     }
 
+    public Optional<Bonus> addItem(ReceiptItem receiptItem, Map<String, ReceiptItem> items) {
+        receiptItem.setCount(receiptItem.getCount() + 1);
+        Discount discount = discounts.getOrDefault(receiptItem.getItem().getCode(), DEFAULT_DISCOUNT);
+        return discount.apply(receiptItem, items);
+    }
+
     public static class Builder {
 
         private Map<String, Discount> discounts = new HashMap<>();
 
         public Builder buy3For2(String itemCode) {
-            discounts.put(itemCode, new Buy3For2());
+            discounts.put(itemCode, BUY3_FOR2_DISCOUNT);
             return this;
         }
 
